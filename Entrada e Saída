@@ -1,0 +1,62 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
+public class EntradaSaida {
+    private Scanner scanner;
+
+    public EntradaSaida() {
+        this.scanner = new Scanner(System.in);
+    }
+
+    // Método para ler uma opção digitada pelo usuário
+    public int lerOpcao() {
+        System.out.print("Escolha uma opção: ");
+        return scanner.nextInt();
+    }
+
+    // Método para ler uma string digitada pelo usuário
+    public String lerString(String mensagem) {
+        System.out.print(mensagem);
+        return scanner.next();
+    }
+
+    // Método para ler um número inteiro digitado pelo usuário
+    public int lerInt(String mensagem) {
+        System.out.print(mensagem);
+        return scanner.nextInt();
+    }
+
+    // Método para ler um número decimal (double) digitado pelo usuário
+    public double lerDouble(String mensagem) {
+        System.out.print(mensagem);
+        return scanner.nextDouble();
+    }
+
+    // Método para ler uma data digitada pelo usuário no formato dd/MM/yyyy
+    public Date lerData(String mensagem) {
+        System.out.print(mensagem);
+        scanner.nextLine(); // Limpar o buffer do scanner
+        String dataStr = scanner.nextLine();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            return dateFormat.parse(dataStr);
+        } catch (ParseException e) {
+            System.out.println("Formato de data inválido. Utilize dd/MM/yyyy.");
+            return null;
+        }
+    }
+
+    // Método para ler um booleano digitado pelo usuário ('s' para true, 'n' para false)
+    public boolean lerBoolean(String mensagem) {
+        System.out.print(mensagem);
+        String resposta = scanner.next();
+        return resposta.equalsIgnoreCase("s");
+    }
+
+    // Método para fechar o scanner
+    public void close() {
+        scanner.close();
+    }
+}
