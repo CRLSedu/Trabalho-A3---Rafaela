@@ -1,0 +1,28 @@
+import java.util.List;
+
+public class Gerente {
+    private String nome;
+    public Gerente(String nome) {
+        this.nome = nome;
+    }
+
+    // Método para adicionar um produto ao estoque usando o gerente
+    public void adicionarProduto(Estoque estoque, Produto produto) {
+        estoque.adicionarProduto(produto);
+    }
+
+    // Método para remover um produto do estoque usando o gerente
+    public void removerProduto(Estoque estoque, String nomeProduto) {
+        estoque.removerProduto(nomeProduto);
+    }
+
+    // Método para aumentar a capacidade do estoque usando o gerente
+    public void aumentarCapacidade(Estoque estoque, int quantidade) {
+        estoque.aumentarCapacidade(quantidade);
+    }
+
+    // Método para consultar produtos por grupo usando o gerente
+    public List<Produto> consultarPorGrupo(Estoque estoque, String grupo) {
+        return estoque.consultarPorGrupo(grupo);
+    }
+}
