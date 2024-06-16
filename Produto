@@ -1,0 +1,73 @@
+import java.util.Date;
+
+public class Produto {
+    private String nome;
+    private int quantidade;
+    private Date dataValidade;
+    private boolean naoPerecivel;
+    private double valor;
+    private String grupo;
+
+    public Produto(String nome, int quantidade, Date dataValidade, boolean naoPerecivel, double valor, String grupo) {
+        this.nome = nome;
+        this.quantidade = quantidade;
+        this.dataValidade = dataValidade;
+        this.naoPerecivel = naoPerecivel;
+        this.valor = valor;
+        this.grupo = grupo;
+    }
+
+    // Getters e setters para os atributos privados
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public Date getDataValidade() {
+        return dataValidade;
+    }
+
+    public void setDataValidade(Date dataValidade) {
+        this.dataValidade = dataValidade;
+    }
+
+    public boolean isNaoPerecivel() {
+        return naoPerecivel;
+    }
+
+    public void setNaoPerecivel(boolean naoPerecivel) {
+        this.naoPerecivel = naoPerecivel;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
+    }
+
+    public String getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(String grupo) {
+        this.grupo = grupo;
+    }
+
+    // Método para reduzir a quantidade do produto em estoque
+    public void reduzirQuantidade(int quantidade) {
+        this.quantidade -= quantidade;
+    }
+}
