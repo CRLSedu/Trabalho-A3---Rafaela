@@ -1,0 +1,169 @@
+/*
+=======UNA=======
+Trabalho A3 - Programação de Soluções Computacionais
+Professora: Rafaela
+Integrantes: Erick Gonçalvez, Carlos Eduardo da Silva, Jefferson
+Programa: Sistema de Estoque de Produtos
+Versão: 2.0 - Final
+Data: 16/06/2024
+*/
+
+
+
+package com.mycompany.a3;
+import java.util.*;
+
+public class SistemaEstoque {
+    public static void main(String[] args) {
+        // Inicialização de EntradaSaida para interação com o usuário
+        EntradaSaida io = new EntradaSaida();
+        // Inicialização do estoque com capacidade inicial de 10 produtos
+        Estoque estoque = new Estoque(10);
+        // Criação do gerente
+        Gerente gerente = new Gerente("Carlos");
+
+        // Variável para controle do loop principal do sistema
+        boolean executando = true;
+        while (executando) {
+            // Menu principal do sistema
+            System.out.println("\n=== Sistema de Estoque ===");
+            System.out.println("1. Adicionar Produto");
+            System.out.println("2. Vender Produto");
+            System.out.println("3. Remover Produto");
+            System.out.println("4. Aumentar Capacidade do Estoque");
+            System.out.println("5. Consultar Estoque por Grupo");
+            System.out.println("6. Calcular Valor Total do Estoque");
+            System.out.println("7. Gerar Relatório de Notas Fiscais");
+            System.out.println("8. Sair");
+
+            int opcao = io.lerOpcao();
+            switch (opcao) {
+                case 1:
+                    // Adicionar Produto
+                    adicionarProduto(io, estoque);
+                    break;
+                case 2:
+                    // Vender Produto
+                    venderProduto(io, estoque);
+                    break;
+                case 3:
+                    // Remover Produto
+                    removerProduto(io, estoque);
+                    break;
+                case 4:
+                    // Aumentar Capacidade do Estoque
+                    aumentarCapacidadeEstoque(io, estoque);
+                    break;
+                case 5:
+                    // Consultar Estoque por Grupo
+                    consultarPorGrupo(io, estoque);
+                    break;
+                case 6:
+                    // Calcular Valor Total do Estoque
+                    calcularValorTotalEstoque(estoque);
+                    break;
+                case 7:
+                    // Gerar Relatório de Notas Fiscais
+                    gerarRelatorioNotasFiscais(estoque);
+                    break;
+                case 8:
+                    // Sair
+                    executando = false;
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+                    break;
+            }
+        }
+
+        // Fechar a entrada/saída ao finalizar
+        io.close();
+    }
+
+    // Método para adicionar um novo produto ao estoque
+    private static void adicionarProduto(EntradaSaida io, Estoque estoque) {
+        System.out.println("\n=== Adicionar Produto ===");
+        String nome = io.lerString("Nome do produto: ");
+        int quantidade = io.lerInt("Quantidade: ");
+        Date dataValidade = io.lerData("Data de validade (dd/MM/yyyy): ");
+        boolean naoPerecivel = io.lerBoolean("O produto é não perecível? (s/n): ");
+        double valor = io.lerDouble("Valor do produto: ");
+        String grupo = io.lerString("Grupo do produto (alimentício, limpeza, etc.): ");
+
+        Produto novoProduto = new Produto(nome, quantidade, dataValidade, naoPerecivel, valor, grupo);
+        estoque.adicionarProduto(novoProduto);
+        System.out.println("Produto adicionado com sucesso!");
+    }
+
+    // Método para vender um produto do estoque
+    private static void venderProduto(EntradaSaida io, Estoque estoque) {
+        System.out.println("\n=== Vender Produto ===");
+        String nome = io.lerString("Nome do produto: ");
+        int quantidade = io.lerInt("Quantidade a ser vendida: ");
+
+        NotaFiscal nota = estoque.venderProduto(nome, quantidade);
+        if (nota != null) {
+            System.out.println("Venda realizada com sucesso!");
+            System.out.println("Detalhes da Nota Fiscal:");
+            System.out.println(nota);
+        }
+    }
+
+    // Método para remover um produto do estoque
+    private static void removerProduto(EntradaSaida io, Estoque estoque) {
+        System.out.println("\n=== Remover Produto ===");
+        String nome = io.lerString("Nome do produto a ser removido: ");
+        estoque.removerProduto(nome);
+        System.out.println("Produto removido com sucesso!");
+    }
+
+    // Método para aumentar a capacidade do estoque
+    private static void aumentarCapacidadeEstoque(EntradaSaida io, Estoque estoque) {
+        System.out.println("\n=== Aumentar Capacidade do Estoque ===");
+        int quantidade = io.lerInt("Quantidade a ser aumentada na capacidade do estoque: ");
+        estoque.aumentarCapacidade(quantidade);
+        System.out.println("Capacidade do estoque aumentada com sucesso!");
+    }
+
+    // Método para consultar produtos por grupo
+    private static void consultarPorGrupo(EntradaSaida io, Estoque estoque) {
+        System.out.println("\n=== Consultar Estoque por Grupo ===");
+        String grupo = io.lerString("Grupo de produtos a ser consultado: ");
+        List<Produto> produtos = estoque.consultarPorGrupo(grupo);
+
+        if (produtos.isEmpty()) {
+            System.out.println("Nenhum produto encontrado para o grupo informado.");
+        } else {
+            System.out.println("Produtos encontrados no grupo '" + grupo + "':");
+            for (Produto produto : produtos) {
+                System.out.println("Nome: " + produto.getNome());
+                System.out.println("Quantidade: " + produto.getQuantidade());
+                System.out.println("Data de Validade: " + produto.getDataValidade());
+                System.out.println("Valor: R$ " + produto.getValor());
+                System.out.println("Grupo: " + produto.getGrupo());
+                System.out.println("--------------------");
+            }
+        }
+    }
+
+    // Método para calcular o valor total do estoque
+    private static void calcularValorTotalEstoque(Estoque estoque) {
+        double valorTotal = estoque.calcularValorTotal();
+        System.out.println("\n=== Valor Total do Estoque ===");
+        System.out.println("O valor total do estoque é: R$ " + valorTotal);
+    }
+
+    // Método para gerar o relatório de notas fiscais emitidas
+    private static void gerarRelatorioNotasFiscais(Estoque estoque) {
+        List<NotaFiscal> notasFiscais = estoque.getNotasFiscais();
+        System.out.println("\n=== Relatório de Notas Fiscais ===");
+        if (notasFiscais.isEmpty()) {
+            System.out.println("Nenhuma nota fiscal emitida até o momento.");
+        } else {
+            System.out.println("Notas fiscais emitidas:");
+            for (NotaFiscal nota : notasFiscais) {
+                System.out.println(nota);
+            }
+        }
+    }
+}
