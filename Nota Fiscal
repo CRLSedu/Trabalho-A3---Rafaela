@@ -1,0 +1,17 @@
+public class NotaFiscal {
+    private int numero;
+    private String nomeProduto;
+    private int quantidade;
+
+    public NotaFiscal(int numero, String nomeProduto, int quantidade) {
+        this.numero = numero;
+        this.nomeProduto = nomeProduto;
+        this.quantidade = quantidade;
+    }
+
+    // Sobrescrita do método toString para exibir informações da nota fiscal
+    @Override
+    public String toString() {
+        return "Nota Fiscal #" + numero + ": Produto=" + nomeProduto + ", Quantidade=" + quantidade;
+    }
+}
