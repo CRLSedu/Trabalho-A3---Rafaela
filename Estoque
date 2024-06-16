@@ -1,0 +1,80 @@
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Estoque {
+    private List<Produto> produtos;
+    private int capacidade;
+    private List<NotaFiscal> notasFiscais;
+    private int proximoNumeroNota;
+
+    public Estoque(int capacidadeInicial) {
+        this.produtos = new ArrayList<>();
+        this.capacidade = capacidadeInicial;
+        this.notasFiscais = new ArrayList<>();
+        this.proximoNumeroNota = 1;
+    }
+    // Método para adicionar um produto ao estoque
+
+
+    // Método para remover um produto do estoque
+    public void removerProduto(String nome) {
+        produtos.removeIf(produto -> produto.getNome().equals(nome));
+    }
+
+    // Método para aumentar a capacidade do estoque
+    public void aumentarCapacidade(int quantidade) {
+        capacidade += quantidade;
+    }
+
+    // Método para vender um produto do estoque
+    public NotaFiscal venderProduto(String nome, int quantidade) {
+        for (Produto produto : produtos) {
+            if (produto.getNome().equals(nome)) {
+                if (produto.getQuantidade() >= quantidade) {
+                    if (produto.isNaoPerecivel() || produto.getDataValidade().after(new Date())) {
+                        produto.reduzirQuantidade(quantidade);
+                        NotaFiscal nota = new NotaFiscal(proximoNumeroNota++, nome, quantidade);
+                        notasFiscais.add(nota);
+                        System.out.println("Venda realizada com sucesso!");
+                        return nota;
+                    } else {
+                        System.out.println("Produto vencido!");
+                        return null;
+                    }
+                } else {
+                    System.out.println("Quantidade insuficiente em estoque!");
+                    return null;
+                }
+            }
+        }
+        System.out.println("Produto não encontrado!");
+        return null;
+    }
+
+    // Método para consultar produtos por grupo
+    public List<Produto> consultarPorGrupo(String grupo) {
+        return produtos.stream()
+                .filter(produto -> produto.getGrupo().equalsIgnoreCase(grupo))
+                .collect(Collectors.toList());
+    }
+
+    // Método para calcular o valor total do estoque
+    public double calcularValorTotal() {
+        double valorTotal = 0.0;
+        for (Produto produto : produtos) {
+            valorTotal += produto.getValor() * produto.getQuantidade();
+        }
+        return valorTotal;
+    }
+
+    // Getter para as notas fiscais emitidas
+    public List<NotaFiscal> getNotasFiscais() {
+        return notasFiscais;
+    }
+
+    void adicionarProduto(Produto produto) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+}
